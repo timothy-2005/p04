@@ -1,3 +1,4 @@
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
@@ -63,8 +64,36 @@ public class Wardrobe {
 
     public void removeAllClothingWornBefore(int year, int month, int day){
         LocalDate comparedate = LocalDate.of(year, month, month);
-        for (Clothing clothes : clothes){
-            
+        for (int i = 0; i < wardrobeSize; i++){
+            if (clothes[i].getLastWornDate().isBefore(comparedate)){
+                clothes[i] = null;
+                wardrobeSize--;
+                for (int j = i; j < clothes.length; i++){
+                    clothes[j] = clothes[j + 1];
+                }
+            }
         }
     } 
+    public void removeAllClothingWornNumTimes(int threshold){
+        for (int i = 0; i < wardrobeSize; i++){
+            if (clothes[i].getNumOfTimesWorn() < threshold){
+                clothes[i] = null;
+                wardrobeSize--;
+                for (int j = i; j < clothes.length; i++){
+                    clothes[j] = clothes[j + 1];
+                }
+            }
+        }
+    }
+    public static Clothing parseClothing(String str) throws ParseException{
+        try{
+            String[] element = str.split(",");
+            String[] date = element[2].split("/");
+            if (element.length != 4){
+                throw new ParseException("Invalid Input");
+            }
+            LocalDate newClothesDate = LocalDate.of(0, 0, 0);
+            Clothing newClothes = new Clothing(element[0], element[1], Integer.parseInt(element[3]), );
+        }
+    }
 }
