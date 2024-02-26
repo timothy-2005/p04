@@ -11,7 +11,7 @@ public class Clothing {
         this.brand = brand;
         this.lastWornDate = null;
         this.timesWorn = 0;
-        if (this.description.equals(" ") || this.brand.equals(" ")) {
+        if (this.description.isBlank() || this.brand.isBlank()) {
             throw new IllegalArgumentException("Description and brand cannot be null");
         }
     }
@@ -20,7 +20,7 @@ public class Clothing {
         this.brand = brand;
         this.timesWorn = timesWorn;
         this.lastWornDate = lastWornDate;
-        if (description.equals(" ") || brand.equals(" ")) {
+        if (this.description.isBlank() || this.brand.isBlank()) {
             throw new IllegalArgumentException("Description and brand cannot be null");
         }
     }
