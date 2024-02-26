@@ -11,7 +11,7 @@ public class Clothing {
         this.brand = brand;
         this.lastWornDate = null;
         this.timesWorn = 0;
-        if (description == null || brand == null) {
+        if (this.description.equals(" ") || this.brand.equals(" ")) {
             throw new IllegalArgumentException("Description and brand cannot be null");
         }
     }
@@ -20,16 +20,16 @@ public class Clothing {
         this.brand = brand;
         this.timesWorn = timesWorn;
         this.lastWornDate = lastWornDate;
-        if (description == null || brand == null) {
+        if (description.equals(" ") || brand.equals(" ")) {
             throw new IllegalArgumentException("Description and brand cannot be null");
         }
     }
     public void wearClothing(int year, int month, int day) throws IllegalArgumentException{
-        LocalDate date = LocalDate.of(year, month, day);
         if (year < 1 || month < 1 || month > 12) {
             throw new IllegalArgumentException("Invalid date");
         }
-        this.lastWornDate = date;
+        LocalDate setDate = LocalDate.of(year, month, day);
+        this.lastWornDate = setDate;
         this.timesWorn++;
     }
     public String getDescription(){
@@ -44,6 +44,8 @@ public class Clothing {
     public int getNumOfTimesWorn(){
         return this.timesWorn;
     }
+
+    @Override
     public boolean equals(Object o){
         if (o instanceof Clothing){
             if (this.description.equalsIgnoreCase(((Clothing) o).getDescription()) && this.brand.equalsIgnoreCase(((Clothing) o).getBrand())) {
@@ -54,8 +56,13 @@ public class Clothing {
         }
         return false;
     }
+    @Override
     public String toString(){
-        return this.description + "," + this.brand + "," + this.lastWornDate.getMonth() + "/" +
+        if (this.lastWornDate == null){
+            return this.description + "," + this.brand + ",null," + this.timesWorn;
+        }else{
+        return this.description + "," + this.brand + "," + this.lastWornDate.getMonthValue() + "/" +
                this.lastWornDate.getDayOfMonth() + "/" + this.lastWornDate.getYear() + "," + this.timesWorn;
+        }
     }
 }

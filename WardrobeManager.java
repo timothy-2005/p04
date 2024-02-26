@@ -31,6 +31,7 @@ public class WardrobeManager {
     System.out.println("\t [S],<filename.txt>Save the wardrobe to a file");
     System.out.println("\t [H]  View list of commands");
     System.out.println("\t [Q]  Quit");
+    
   }
   
   /**
@@ -252,6 +253,7 @@ public class WardrobeManager {
       case 'V','v': //view current wardrobe
         System.out.println("Here is your current wardrobe: ");
         System.out.println(wardrobe);
+        
         break;
       case 'F','f': //find a piece of clothing
         findClothing(input);

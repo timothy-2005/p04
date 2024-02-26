@@ -1,0 +1,67 @@
+public static boolean testClothingConstructorExceptions() {
+    // Here we call constructors with input that should lead to an IllegalArgumentException
+    // on a correct (good) implementation. ALL of these cases SHOULD throw exceptions,
+    // so we test them in separate try-catch statements to verify that each individual
+    // case throws an exception.
+    
+    try {
+      // test the 2 argument constructor with a blank description
+      new Clothing(" ", "Gildan");
+
+      return false; // no exception was thrown when it should have been; it's a broken implementation
+    } catch (IllegalArgumentException e) {
+      // check if the exception has any message; if there is NO message it's a broken implementation
+      if (e.getMessage() == null || e.getMessage().isBlank())
+        return false;
+    } catch (Exception e) { // any other type of exception is not good, it's a broken implementation
+      e.printStackTrace();
+      return false;
+    }
+
+    try {
+      // and make sure a blank brand will also throw an exception
+      new Clothing("black t-shirt", "  ");
+
+      return false; // no exception was thrown
+    } catch (IllegalArgumentException e) {
+      // check if the exception has a message
+      if (e.getMessage() == null || e.getMessage().isBlank())
+        return false;
+    } catch (Exception e) { // any other type of exception is not good
+      e.printStackTrace();
+      return false;
+    }
+      
+    try {
+      // test the 4 argument constructor with a blank description
+      LocalDate date = LocalDate.of(2021, 12, 25);
+      new Clothing(" ", "Gildan", 4, date);
+
+      return false; // no exception was thrown
+    } catch (IllegalArgumentException e) {
+      // check if the exception has a message
+      if (e.getMessage() == null || e.getMessage().isBlank())
+        return false;
+    } catch (Exception e) { // any other type of exception is not good
+      e.printStackTrace();
+      return false;
+    }
+
+    try {
+      // and verifying that a blank brand will also throw an exception
+      LocalDate date = LocalDate.of(2021, 12, 25);
+      new Clothing("black t-shirt", "  ", 6, date);
+
+      return false; // no exception was thrown
+    } catch (IllegalArgumentException e) {
+      // check if the exception has a message,
+      if (e.getMessage() == null || e.getMessage().isBlank())
+        return false;
+    } catch (Exception e) { // any other type of exception is not good
+      e.printStackTrace();
+      return false;
+    }
+    
+    // passed all the tests!
+    return true;
+  }

@@ -136,7 +136,29 @@ public class WardrobeManagerTester {
    * 
    */
   public static boolean testClothingWear() {
-    return false;
+    try{
+      Clothing c = new Clothing("black t-shirt", "gildan");
+      c.wearClothing(-1, 01, 29);
+      return false;
+    }catch(IllegalArgumentException e){
+      if (e.getMessage() == null || e.getMessage().isBlank())
+        return false;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+    try{
+      Clothing c = new Clothing("black t-shirt", "gildan");
+      c.wearClothing(2021, 13, 29);
+      return false;
+    }catch(IllegalArgumentException e){
+      if (e.getMessage() == null || e.getMessage().isBlank())
+        return false;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -147,8 +169,16 @@ public class WardrobeManagerTester {
    */
 
   public static boolean testWardrobeConstructorAndGetters() {
-    return false;
-  }
+    try{
+      Wardrobe w = new Wardrobe(5);
+      if (w.capacity() != 5) return false;
+      w = 
+    }catch(Exception e){
+      e.printStackTrace();
+      return false;
+    }
+  return false;
+}
   
   /**
    * Tests that the Wardrobe constructor throws the correct type of exception(s) 
@@ -157,6 +187,17 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testWardrobeConstructorExceptions() {
+    try{
+      Wardrobe w = new Wardrobe(0);
+      return false;
+    
+    }catch(IllegalArgumentException e){
+      if (e.getMessage() == null || e.getMessage().isBlank())
+        return false;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
     return false;
   }
   
