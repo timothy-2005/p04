@@ -172,12 +172,13 @@ public class WardrobeManagerTester {
     try{
       Wardrobe w = new Wardrobe(5);
       if (w.capacity() != 5) return false;
-      w = 
+      if (w.size() != 0) return false;
+      
     }catch(Exception e){
       e.printStackTrace();
       return false;
     }
-  return false;
+  return true;
 }
   
   /**
@@ -198,7 +199,7 @@ public class WardrobeManagerTester {
       e.printStackTrace();
       return false;
     }
-    return false;
+    return true;
   }
   
   /**
@@ -208,7 +209,21 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testAddClothingExceptions() {
-    return false;
+    Wardrobe w = new Wardrobe(5);
+    Clothing c = new Clothing("black t-shirt", "gildan");
+    Clothing c_copy = new Clothing("black t-shirt", "gildan");
+    w.addClothing(c);
+    try{
+      w.addClothing(c_copy);
+      return false;
+    }catch(IllegalArgumentException e){
+      if (e.getMessage() == null || e.getMessage().isBlank())
+        return false;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+    return true;
   }
   
   /**
@@ -218,7 +233,22 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testAddClothing() {
-    return false;
+    Wardrobe w = new Wardrobe(5);
+    Clothing c = new Clothing("black t-shirt", "gildan");
+    Clothing c2 = new Clothing("black jeans", "Levi");
+    Clothing c3 = new Clothing("red t-shirt", "gildan");
+    Clothing c4 = new Clothing("jeans", "Levi");
+    Clothing c5 = new Clothing("blue t-shirt", "gildan");
+    Clothing c6 = new Clothing("jean", "Levi");
+    w.addClothing(c);
+    w.addClothing(c2);
+    w.addClothing(c3);
+    w.addClothing(c4);
+    w.addClothing(c5);
+    w.addClothing(c6);
+    if (w.capacity() != 10) return false;
+    if(w.size() != 6) return false;
+    return true;
   }
   
   
@@ -229,7 +259,14 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testGetClothing() {
-    return false;
+    Wardrobe w = new Wardrobe(5);
+    Clothing c = new Clothing("black jeans", "Levi");
+    w.addClothing(c);
+    Clothing compareClothing = w.getClothing("BLACK JEANS", "LEVI");
+    Clothing compareClothing2 = w.getClothing("black jeans", "Levi");
+    if (!compareClothing.equals(c)) return false;
+    if (!compareClothing2.equals(c)) return false;
+    return true;
   }
   
   
@@ -240,9 +277,33 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testGetClothingExceptions() {
+    try{
+      Wardrobe w = new Wardrobe(5);
+      Clothing c = new Clothing("black jeans", "Levi");
+      w.addClothing(c);
+      w.getClothing("black t-shirt", "gildan");
+      return false;
+    }catch(NoSuchElementException e){
+      if (e.getMessage() == null || e.getMessage().isBlank())
+        return false;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+    try{
+      Wardrobe w = new Wardrobe(5);
+      w.getClothing("black jeans", "gildan");
+      return false;
+  }catch(NoSuchElementException e){
+    if (e.getMessage() == null || e.getMessage().isBlank())
+      return false;
+  } catch (Exception e) {
+    e.printStackTrace();
     return false;
   }
-  
+  return true;
+}
+
   /**
    * Tests that the Wardrobe's removeClothing() method throws the correct type of exception(s) 
    * with a message in situations where an exception is expected.

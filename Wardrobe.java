@@ -20,14 +20,22 @@ public class Wardrobe {
         this.wardrobeSize = 0;
     }
 
-    public Clothing getClothing(String descritopn, String brand) throws NoSuchElementException{
-        for (Clothing wardrobe : this.wardrobe){
-            if (wardrobe.getBrand().equalsIgnoreCase(brand) && wardrobe.getDescription().equalsIgnoreCase(descritopn)){
-                return wardrobe;
+    public Clothing getClothing(String descritopn, String brand) {
+        for (Clothing targetclothes : this.wardrobe){
+            if (wardrobeSize != 0){
+                if (targetclothes.getBrand().equalsIgnoreCase(brand) && targetclothes.getDescription().equalsIgnoreCase(descritopn)){
+                    return targetclothes;
+                }else{
+                    throw new NoSuchElementException("Clothing not found");
+                }
             }
+            else{
+                throw new NoSuchElementException("wardrobe is empty");
         }
-        throw new NoSuchElementException("Clothing not found");
+        
     }
+    throw new NoSuchElementException("Clothing not found");
+}
     public void addClothing(Clothing toAdd) throws IllegalArgumentException{
         Clothing[] newClothes = new Clothing[this.wardrobe.length * 2];
         if (this.wardrobeSize == this.wardrobe.length) {
