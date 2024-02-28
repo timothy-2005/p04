@@ -197,26 +197,30 @@ public class Wardrobe {
      */
     public boolean loadFromFile(File saveFile){
         boolean result = false;
-        try{
-            Scanner file = new Scanner(saveFile);
+        try(Scanner file = new Scanner(saveFile)){
             while (file.hasNextLine()){
+                try{
                 String line = file.nextLine();
                 Clothing newClothes = parseClothing(line);
                 addClothing(newClothes);
                 result = true;
+                file.close();
+                }
+                catch(IllegalArgumentException e){
+                    PrintWriter consoleOutPut = new PrintWriter(System.out);
+                    consoleOutPut.println("Cannot parse line to Clothing object");
+                    
+                }
+                catch(ParseException e){
+                    PrintWriter consoleOutPut = new PrintWriter(System.out);
+                    consoleOutPut.println("Cannot parse line to Clothing object");
+                    
+                }
             }
-            file.close();
-            
-        }catch(IllegalArgumentException e){
-            return false;
-        }
-        catch(ParseException e){
-            PrintWriter consoleOutPut = new PrintWriter(System.out);
-            consoleOutPut.println("Cannot parse line to Clothing object");
-            return false;
         }
         catch(FileNotFoundException e){
-            return false;
+            PrintWriter consoleOutPut = new PrintWriter(System.out);
+            consoleOutPut.println("Cannot parse line to Clothing object");
         }
         return result;
     }
