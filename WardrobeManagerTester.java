@@ -136,28 +136,38 @@ public class WardrobeManagerTester {
    * 
    */
   public static boolean testClothingWear() {
+
+    // in case we get an unexpected exception from a broken implementation
     try{
-      Clothing c = new Clothing("black t-shirt", "gildan");
-      c.wearClothing(-1, 01, 29);
-      return false;
+      Clothing c = new Clothing("black t-shirt", "gildan"); // create a Clothing object
+      c.wearClothing(-1, 01, 29); // wear the clothing on a date which is invalid
+      return false; // no exception was thrown return false
     }catch(IllegalArgumentException e){
+      // check if the exception has a message
       if (e.getMessage() == null || e.getMessage().isBlank())
+      // if there is NO message it's a broken implementation
         return false;
-    } catch (Exception e) {
+    } catch (Exception e) { // any other type of exception is not good
       e.printStackTrace();
+      // if any other type of exception is thrown return false
       return false;
     }
     try{
-      Clothing c = new Clothing("black t-shirt", "gildan");
-      c.wearClothing(2021, 13, 29);
-      return false;
+      // wear the clothing on a date which is invalid
+      Clothing c = new Clothing("black t-shirt", "gildan"); // create a Clothing object
+      c.wearClothing(2021, 13, 29); // wear the clothing on a date which is invalid
+      return false; // no exception was thrown return false
     }catch(IllegalArgumentException e){
-      if (e.getMessage() == null || e.getMessage().isBlank())
+      // check if the exception has a message
+      if (e.getMessage() == null || e.getMessage().isBlank()) // if there is NO message it's a broken implementation
+      // if there is NO message return false
         return false;
-    } catch (Exception e) {
+    } catch (Exception e) {// any other type of exception is not good
       e.printStackTrace();
+      // if any other type of exception is thrown
       return false;
     }
+    // passed all the tests!
     return true;
   }
 
@@ -169,15 +179,21 @@ public class WardrobeManagerTester {
    */
 
   public static boolean testWardrobeConstructorAndGetters() {
+    // in case we get an unexpected exception from a broken implementation
     try{
+      // create a Wardrobe object
       Wardrobe w = new Wardrobe(5);
+      // test the getter for capacity
       if (w.capacity() != 5) return false;
+      // test the getter for size
       if (w.size() != 0) return false;
       
-    }catch(Exception e){
+    }catch(Exception e){ // any other type of exception is not good
       e.printStackTrace();
+      // if any other type of exception is thrown
       return false;
     }
+    // passed all the tests!
   return true;
 }
   
@@ -189,16 +205,21 @@ public class WardrobeManagerTester {
    */
   public static boolean testWardrobeConstructorExceptions() {
     try{
-      Wardrobe w = new Wardrobe(0);
+      // test the constructor with a negative capacity
+      Wardrobe w = new Wardrobe(0); // create a Wardrobe object
+      // if no exception was thrown return false
       return false;
     
-    }catch(IllegalArgumentException e){
-      if (e.getMessage() == null || e.getMessage().isBlank())
+    }catch(IllegalArgumentException e){// check if the exception has a message
+      if (e.getMessage() == null || e.getMessage().isBlank()) // if there is NO message it's a broken implementation
+      // if there is NO message return false
         return false;
-    } catch (Exception e) {
+    } catch (Exception e) { // any other type of exception is not good
       e.printStackTrace();
+      // if any other type of exception is thrown return false
       return false;
     }
+    // passed all the tests!
     return true;
   }
   
@@ -209,20 +230,26 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testAddClothingExceptions() {
-    Wardrobe w = new Wardrobe(5);
-    Clothing c = new Clothing("black t-shirt", "gildan");
-    Clothing c_copy = new Clothing("black t-shirt", "gildan");
-    w.addClothing(c);
+    // in case we get an unexpected exception from a broken implementation
+    Wardrobe w = new Wardrobe(5); // create a Wardrobe object
+    Clothing c = new Clothing("black t-shirt", "gildan"); // create a Clothing object
+    Clothing c_copy = new Clothing("black t-shirt", "gildan"); // create a Clothing object
+    w.addClothing(c); // add the Clothing object to the Wardrobe
     try{
+      // test adding a duplicate clothing
       w.addClothing(c_copy);
+      // if no exception was thrown return false
       return false;
-    }catch(IllegalArgumentException e){
+    }catch(IllegalArgumentException e){ // check if the exception has a message
       if (e.getMessage() == null || e.getMessage().isBlank())
+      // if there is NO message it's a broken implementation
         return false;
-    } catch (Exception e) {
+    } catch (Exception e) { // any other type of exception is not good
       e.printStackTrace();
+      // if any other type of exception is thrown return false
       return false;
     }
+    // passed all the tests!
     return true;
   }
   
@@ -233,6 +260,7 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testAddClothing() {
+    // create a Wardrobe object
     Wardrobe w = new Wardrobe(5);
     Clothing c = new Clothing("black t-shirt", "gildan");
     Clothing c2 = new Clothing("black jeans", "Levi");
@@ -246,8 +274,10 @@ public class WardrobeManagerTester {
     w.addClothing(c4);
     w.addClothing(c5);
     w.addClothing(c6);
-    if (w.capacity() != 10) return false;
-    if(w.size() != 6) return false;
+    // test the extended capacity
+    if (w.capacity() != 10) return false; // if the capacity is not doubled return false
+    if(w.size() != 6) return false; // if the size is not 6 return false
+    // passed all the tests!
     return true;
   }
   
@@ -259,13 +289,15 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testGetClothing() {
+    // create a Wardrobe object
     Wardrobe w = new Wardrobe(5);
-    Clothing c = new Clothing("black jeans", "Levi");
-    w.addClothing(c);
-    Clothing compareClothing = w.getClothing("BLACK JEANS", "LEVI");
-    Clothing compareClothing2 = w.getClothing("black jeans", "Levi");
-    if (!compareClothing.equals(c)) return false;
-    if (!compareClothing2.equals(c)) return false;
+    Clothing c = new Clothing("black jeans", "Levi"); // create a Clothing object
+    w.addClothing(c); // add the Clothing object to the Wardrobe
+    Clothing compareClothing = w.getClothing("BLACK JEANS", "LEVI"); // compare the Clothing object from the Wardrobe(case insensitive)
+    Clothing compareClothing2 = w.getClothing("black jeans", "Levi"); // get the Clothing object from the Wardrobe
+    if (!compareClothing.equals(c)) return false; // if the Clothing object is not the same return false
+    if (!compareClothing2.equals(c)) return false; // if the Clothing object is not the same return false
+    // passed all the tests!
     return true;
   }
   
@@ -278,29 +310,36 @@ public class WardrobeManagerTester {
    */
   public static boolean testGetClothingExceptions() {
     try{
+      // test getting a clothing that is not in the wardrobe
       Wardrobe w = new Wardrobe(5);
+      // if no exception was thrown return false
       Clothing c = new Clothing("black jeans", "Levi");
+      // if no exception was thrown return false
       w.addClothing(c);
       w.getClothing("black t-shirt", "gildan");
       return false;
-    }catch(NoSuchElementException e){
-      if (e.getMessage() == null || e.getMessage().isBlank())
+    }catch(NoSuchElementException e){ // check if the exception has a message
+      if (e.getMessage() == null || e.getMessage().isBlank()) // if there is NO message it's a broken implementation
+      // if there is NO message return false
         return false;
     } catch (Exception e) {
-      e.printStackTrace();
+      e.printStackTrace(); // any other type of exception is not good
+      // if any other type of exception is thrown return false
       return false;
     }
     try{
-      Wardrobe w = new Wardrobe(5);
-      w.getClothing("black jeans", "gildan");
-      return false;
+      // test getting a clothing that is not in the wardrobe
+      Wardrobe w = new Wardrobe(5); // create a Wardrobe object
+      w.getClothing("black jeans", "gildan"); // get the Clothing object from the Wardrobe
+      return false; // if no exception was thrown return false
   }catch(NoSuchElementException e){
-    if (e.getMessage() == null || e.getMessage().isBlank())
-      return false;
-  } catch (Exception e) {
-    e.printStackTrace();
+    if (e.getMessage() == null || e.getMessage().isBlank()) // if there is NO message it's a broken implementation
+      return false; // if there is NO message return false
+  } catch (Exception e) { // any other type of exception is not good
+    e.printStackTrace(); // if any other type of exception is thrown return false
     return false;
   }
+  // passed all the tests!
   return true;
 }
 
