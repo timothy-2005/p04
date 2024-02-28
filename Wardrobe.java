@@ -175,6 +175,9 @@ public class Wardrobe {
             }
             if(!element[2].equals("null")){
                 date = element[2].split("/");
+                if (date.length != 3){
+                    throw new ParseException("Invalid Input", 0);
+                }
                 newClothesDate = LocalDate.of(Integer.parseInt(date[2]), Integer.parseInt(date[0]), Integer.parseInt(date[1]));
                 newClothes = new Clothing(element[0], element[1], Integer.parseInt(element[3]), newClothesDate);
             }else{
@@ -205,15 +208,15 @@ public class Wardrobe {
             file.close();
             
         }catch(IllegalArgumentException e){
-            return result;
+            return false;
         }
         catch(ParseException e){
             PrintWriter consoleOutPut = new PrintWriter(System.out);
             consoleOutPut.println("Cannot parse line to Clothing object");
-            return result;
+            return false;
         }
         catch(FileNotFoundException e){
-            return result;
+            return false;
         }
         return result;
     }
