@@ -39,6 +39,9 @@ public class Clothing {
         if (this.description.isBlank() || this.brand.isBlank()) {
             throw new IllegalArgumentException("Description and brand cannot be null");
         }
+        if (lastWornDate.getYear() < 1 || lastWornDate.getMonthValue() < 1 || lastWornDate.getMonthValue() > 12) {
+            throw new IllegalArgumentException("Invalid date");
+        }
     }
 
     /**

@@ -179,6 +179,9 @@ public class Wardrobe {
                     throw new ParseException("Invalid Input", 0);
                 }
                 newClothesDate = LocalDate.of(Integer.parseInt(date[2]), Integer.parseInt(date[0]), Integer.parseInt(date[1]));
+                if (newClothesDate.getYear() < 1 || newClothesDate.getMonthValue() < 1 || newClothesDate.getMonthValue() > 12) {
+                    throw new IllegalArgumentException("Invalid date");
+                }
                 newClothes = new Clothing(element[0], element[1], Integer.parseInt(element[3]), newClothesDate);
             }else{
                 newClothes = new Clothing(element[0], element[1]);
@@ -197,26 +200,34 @@ public class Wardrobe {
      */
     public boolean loadFromFile(File saveFile){
         boolean result = false;
-        try(Scanner file = new Scanner(saveFile)){
+        try{
+            Scanner file = new Scanner(saveFile);
             while (file.hasNextLine()){
                 try{
+                
                 String line = file.nextLine();
                 Clothing newClothes = parseClothing(line);
                 addClothing(newClothes);
                 result = true;
-                file.close();
+                
                 }
-                catch(IllegalArgumentException e){
-                    PrintWriter consoleOutPut = new PrintWriter(System.out);
-                    consoleOutPut.println("Cannot parse line to Clothing object");
-                    
-                }
+                
+                
                 catch(ParseException e){
                     PrintWriter consoleOutPut = new PrintWriter(System.out);
                     consoleOutPut.println("Cannot parse line to Clothing object");
                     
                 }
+                catch(IllegalArgumentException e){
+                    PrintWriter consoleOutPut = new PrintWriter(System.out);
+                    consoleOutPut.println("Cannot parse line to Clothing object");
+                }
+                catch(Exception e){
+                    PrintWriter consoleOutPut = new PrintWriter(System.out);
+                    consoleOutPut.println("Cannot parse line to Clothing object");
+                }
             }
+            file.close();
         }
         catch(FileNotFoundException e){
             PrintWriter consoleOutPut = new PrintWriter(System.out);
