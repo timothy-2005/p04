@@ -7,6 +7,33 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+//////////////// FILE HEADER (INCLUDE IN EVERY FILE) //////////////////////////
+//
+// Title: wardrobe manager 2.0
+// Course: CS 300 Spring 2024
+//
+// Author: hao zhou
+// Email: hzhou375@wisc.edu
+// Lecturer: Hobbes LeGault
+//
+//////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
+//
+// Partner Name: Null
+// Partner Email: Null
+// Partner Lecturer's Name: Null
+//
+// VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
+// _X_ Write-up states that pair programming is allowed for this assignment.
+// _X_ We have both read and understand the course Pair Programming Policy.
+// _X_ We have registered our team prior to the team registration deadline.
+//
+//////////////////////// ASSISTANCE/HELP CITATIONS ////////////////////////////
+//
+// Persons: Null
+// Online Sources: Null
+//
+///////////////////////////////////////////////////////////////////////////////
+
 /**
  * A class to represent a wardrobe of clothing.
  */
@@ -99,64 +126,69 @@ public class Wardrobe {
     public int size(){
         return this.wardrobeSize;
     }
-
     /**
-     * Returns the clothing item at the given index in the wardrobe.
+     * Saves the wardrobe to the given file.
      * @param description the description of the clothing item
      * @param brand the brand of the clothing item
      */
-    public void removeClothing(String description, String brand) {
-        int comparesize = wardrobeSize;
-        Clothing compareClothing = new Clothing(description, brand);
-        if (this.wardrobeSize == 0) {
-            throw new IllegalStateException("Wardrobe is empty");
+    public void removeClothing(String description, String brand){
+        boolean clothExist = false;
+        int Index = -1;
+        if(size() == 0){
+            throw new IllegalStateException("the wardrobe is empty");
         }
-        for (int i = 0; i < this.wardrobeSize; i++){
-            if (wardrobe[i].equals(compareClothing) && wardrobe[i].equals(compareClothing)){
-                for (int j = i; j < this.wardrobeSize - 1; j++){
-                    wardrobe[j] = wardrobe[j + 1];
-                }
 
-                this.wardrobeSize--;
-                wardrobe[wardrobeSize] = null;
+        for(int i = 0; i < wardrobeSize; i++){
+            if (wardrobe[i].getDescription().equalsIgnoreCase(description)
+                && wardrobe[i].getBrand().equalsIgnoreCase(brand)) {
+                clothExist = true;
+                wardrobe[i] = null;
+                Index = i;
+                break;
             }
         }
-        if (comparesize == wardrobeSize){
+
+        if (clothExist){
+            for(int i = Index; i < wardrobeSize - 1; i++) {
+                wardrobe[i] = wardrobe[i + 1];
+            }
+            wardrobe[wardrobeSize - 1] = null;
+            wardrobeSize--;
+        }else{
             throw new NoSuchElementException("Clothing not found");
         }
     }
-    
+
     /**
-     * Returns the clothing item at the given index in the wardrobe.
-     * @param year the year to compare the last worn date to
-     * @param month the month to compare the last worn date to
-     * @param day the day to compare the last worn date to
+     * Saves the wardrobe to the given file.
+     * @param year the year to save the wardrobe to
+     * @param month the month to save the wardrobe to
+     * @param day the day to save the wardrobe to
      */
     public void removeAllClothingWornBefore(int year, int month, int day){
-        LocalDate comparedate = LocalDate.of(year, month, day);
-        for (int i = 0; i < wardrobeSize; i++){
-            if (wardrobe[i].getLastWornDate() != null){
-            if (wardrobe[i].getLastWornDate().isBefore(comparedate)){
+        LocalDate compareDate = LocalDate.of(year, month, day);
+        for(int i = 0; i < wardrobeSize; i++){
+            LocalDate originalDate = wardrobe[i].getLastWornDate();
+            if(originalDate == null || originalDate.isBefore(compareDate)){
                 removeClothing(wardrobe[i].getDescription(), wardrobe[i].getBrand());
+                i--;
             }
         }
-        }
-    } 
+    }
 
     /**
-     * Returns the clothing item at the given index in the wardrobe.
-     * @param threshold the threshold to compare the number of times worn to
+     * Saves the wardrobe to the given file.
+     * @param threshold the threshold to save the wardrobe to
      */
     public void removeAllClothingWornNumTimes(int threshold){
-        for (int i = 0; i < wardrobeSize; i++){
-            if (wardrobe[i].getNumOfTimesWorn() < threshold){
+        for(int i = 0; i < wardrobeSize; i++){
+            if(wardrobe[i].getNumOfTimesWorn() < threshold){
                 removeClothing(wardrobe[i].getDescription(), wardrobe[i].getBrand());
-                
+                i--;
             }
-            i = i - 1;
         }
-
     }
+
 
     /**
      * Returns the clothing item at the given index in the wardrobe.
@@ -204,19 +236,14 @@ public class Wardrobe {
             Scanner file = new Scanner(saveFile);
             while (file.hasNextLine()){
                 try{
-                
                 String line = file.nextLine();
                 Clothing newClothes = parseClothing(line);
                 addClothing(newClothes);
                 result = true;
-                
                 }
-                
-                
                 catch(ParseException e){
                     PrintWriter consoleOutPut = new PrintWriter(System.out);
                     consoleOutPut.println("Cannot parse line to Clothing object");
-                    
                 }
                 catch(IllegalArgumentException e){
                     PrintWriter consoleOutPut = new PrintWriter(System.out);
@@ -276,9 +303,10 @@ public class Wardrobe {
     @Override
     public String toString(){
         String result = "";
-        for (int i = 0; i < wardrobeSize; i++){
+        for (int i = 0; i < wardrobeSize - 1; i++){
             result += "[" + wardrobe[i].toString() + "]\n";
         }
+        result += "[" + wardrobe[wardrobeSize - 1].toString() + "]";
         return result;
     }
 }

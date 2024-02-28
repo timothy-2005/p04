@@ -1,7 +1,33 @@
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
-import java.io.File;
-import java.util.Arrays;
+import java.text.ParseException;
+
+//////////////// FILE HEADER (INCLUDE IN EVERY FILE) //////////////////////////
+//
+// Title: wardrobe manager 2.0
+// Course: CS 300 Spring 2024
+//
+// Author: hao zhou
+// Email: hzhou375@wisc.edu
+// Lecturer: Hobbes LeGault
+//
+//////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
+//
+// Partner Name: Null
+// Partner Email: Null
+// Partner Lecturer's Name: Null
+//
+// VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
+// _X_ Write-up states that pair programming is allowed for this assignment.
+// _X_ We have both read and understand the course Pair Programming Policy.
+// _X_ We have registered our team prior to the team registration deadline.
+//
+//////////////////////// ASSISTANCE/HELP CITATIONS ////////////////////////////
+//
+// Persons: Null
+// Online Sources: Null
+//
+///////////////////////////////////////////////////////////////////////////////
 
 // TODO: ADD FILE HEADER HERE
 
@@ -349,7 +375,38 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testRemoveClothingExceptions() {
-    return false;
+    { // test case when the wardrobe is empty
+      try{
+        Wardrobe w = new Wardrobe(5);
+        w.removeClothing("purse", "gucci");
+        return false; // no exception was thrown when it should have been, broken implementation
+      }catch(IllegalStateException e){
+        // check if the exception has any message; return false if there is NO message
+        if (e.getMessage() == null || e.getMessage().isBlank())
+          return false;
+      }catch (Exception e){ // any other type of exception is not good, return false
+        e.printStackTrace();
+        return false;
+      }
+    }
+
+    { // test case when the piece of clothing is not in the wardrobe
+      try{
+        Wardrobe w = new Wardrobe(5);
+        Clothing c = new Clothing("black t-shirt", "gildan");
+        w.addClothing(c);
+        w.removeClothing("purse", "gucci");
+        return false; // no exception was thrown when it should have been, broken implementation
+      }catch(NoSuchElementException e){
+        // check if the exception has any message; return false if there is NO message
+        if (e.getMessage() == null || e.getMessage().isBlank())
+          return false;
+      }catch (Exception e){ // any other type of exception is not good, return false
+        e.printStackTrace();
+        return false;
+      }
+    }
+    return true;
   }
   
   /**
@@ -360,28 +417,33 @@ public class WardrobeManagerTester {
    */
   public static boolean testRemoveClothing() {
     try {
+      // test removing a clothing from the wardrobe
       Wardrobe w = new Wardrobe(5);
       Clothing c1 = new Clothing("black t-shirt", "gildan");
       Clothing c2 = new Clothing("blue hoodie", "gildan");
       Clothing c3 = new Clothing("purse", "gucci");
+      // if no exception was thrown return false
       w.addClothing(c1);
       w.addClothing(c2);
       w.addClothing(c3);
-
+      // if no exception was thrown return false
       w.removeClothing("blue hoodie", "gildan");
-
+      // if the size is not 2 return false
       String expected = "[black t-shirt,gildan,null,0]\n" + "[purse,gucci,null,0]";
       String actual = w.toString();
-
+      // if the expected and actual are not the same return false
       if (w.size() != 2)
         return false;
+      // if the expected and actual are not the same return false
       if (!expected.equals(actual))
         return false;
     }
     catch (Exception e){
       e.printStackTrace();
+      // if any other type of exception is thrown return false
       return false;
     }
+    // passed all the tests!
     return true;
 
   }
@@ -394,30 +456,35 @@ public class WardrobeManagerTester {
    */
   public static boolean testRemoveAllClothingWornBefore() {
     try{
+      // test removing all clothing worn before a certain date
       Wardrobe w = new Wardrobe(5);
       Clothing c1 = new Clothing("black t-shirt", "gildan");
       Clothing c2 = new Clothing("blue hoodie", "gildan");
       Clothing c3 = new Clothing("purse", "gucci");
+      // if no exception was thrown return false
       w.addClothing(c1);
       w.addClothing(c2);
       w.addClothing(c3);
       w.wearClothing(c3, 2024, 2, 19);
       w.wearClothing(c2, 2023, 10, 10);
-
+      // if no exception was thrown return false
       w.removeAllClothingWornBefore(2024, 1, 1);
-
+      // if the size is not 1 return false
       String expected = "[purse,gucci,02/19/2024,1]";
       String actual = w.toString();
-
+      // if the expected and actual are not the same return false
       if (w.size() != 1)
         return false;
+      // if the expected and actual are not the same return false
       if (!expected.equals(actual))
         return false;
 
     }catch (Exception e){
       e.printStackTrace();
+      // if any other type of exception is thrown return false
       return false;
     }
+    // passed all the tests!
     return true;
   }
   
@@ -429,35 +496,40 @@ public class WardrobeManagerTester {
    */
   public static boolean testRemoveAllClothingWornNumTimes() {
     try{
+      // test removing all clothing worn a certain number of times
       Wardrobe w = new Wardrobe(5);
       Clothing c1 = new Clothing("black t-shirt", "gildan");
       Clothing c2 = new Clothing("blue hoodie", "gildan");
       Clothing c3 = new Clothing("purse", "gucci");
-      Clothing c4 = new Clothing("winter jacket", "xtreme");
+      Clothing c4 = new Clothing("red hoodie", "gucci");
       w.addClothing(c1);
       w.addClothing(c2);
       w.addClothing(c3);
-      w.addClothing(c4);
+      w.addClothing(c4);// if no exception was thrown return false
       w.wearClothing(c2, 2023, 10, 10);
       w.wearClothing(c2, 2024, 5, 15);
       w.wearClothing(c2, 2023, 12, 25);
       w.wearClothing(c3, 2024, 2, 19);
       w.wearClothing(c3, 2024, 1, 8);
       w.wearClothing(c4, 2023, 8, 20);
-
       w.removeAllClothingWornNumTimes(2);
-      String expected = "[blue hoodie,gildan,12/25/2023,1]\n" + "[purse,gucci,01/08/2024,1]";
+      // if the size is not 2 return false
+      String expected = "[blue hoodie,gildan,12/25/2023,3]\n" + "[purse,gucci,01/08/2024,2]";
       String actual = w.toString();
-
+      // if the expected and actual are not the same return false
       if (w.size() != 2)
+      // if the expected and actual are not the same return false
         return false;
       if (!expected.equals(actual))
+      // if the expected and actual are not the same return false
         return false;
 
     }catch (Exception e){
       e.printStackTrace();
+      // if any other type of exception is thrown return false
       return false;
     }
+    // passed all the tests!
     return true;
   }
   
@@ -468,7 +540,60 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testParseClothingExceptions() {
-    return false;
+    { // test case without the 4 required pieces of information
+      try {
+        String str = "black t-shirt,gildan,null";
+        Clothing cloth = Wardrobe.parseClothing(str);
+        // no exception was thrown when it should have been; it's a broken implementation
+        return false;
+
+      } catch (ParseException e) {
+        // check if the exception has any message; return false if there is NO message
+        if (e.getMessage() == null || e.getMessage().isBlank())
+          return false;
+
+      } catch (Exception e) { // any other type of exception is not good, return false
+        e.printStackTrace();
+        return false;
+      }
+    }
+
+    { // test case of invalid date format
+      try {
+        String str = "blue hoodie,gildan,10/10,1";
+        Clothing cloth = Wardrobe.parseClothing(str);
+        // no exception was thrown when it should have been; it's a broken implementation
+        return false;
+
+      } catch (ParseException e) {
+        // check if the exception has any message; return false if there is NO message
+        if (e.getMessage() == null || e.getMessage().isBlank())
+          return false;
+
+      } catch (Exception e) { // any other type of exception is not good, return false
+        e.printStackTrace();
+        return false;
+      }
+    }
+
+    { //test case with invalid cloth argument
+      try {
+        String str = "blue hoodie,gildan,10/10/2023,s";
+        Clothing cloth = Wardrobe.parseClothing(str);
+        // no exception was thrown when it should have been; it's a broken implementation
+        return false;
+
+      } catch (ParseException e) {
+        // check if the exception has any message; return false if there is NO message
+        if (e.getMessage() == null || e.getMessage().isBlank())
+          return false;
+
+      } catch (Exception e) { // any other type of exception is not good, return false
+        e.printStackTrace();
+        return false;
+      }
+    }
+    return true;
   }
   
   /**
@@ -479,7 +604,7 @@ public class WardrobeManagerTester {
    */
   public static boolean testParseClothing() {
     try{
-      { //test case with no date in string
+      { //test case with null date in string
         String str = "black t-shirt,Gildan,null,0";
         Clothing c = Wardrobe.parseClothing(str);
 
@@ -497,23 +622,24 @@ public class WardrobeManagerTester {
         String str = "jeans,levi,02/14/2024,1";
         Clothing c = Wardrobe.parseClothing(str);
         LocalDate date = LocalDate.of(2024, 2, 14);
-
+        // if the expected and actual are not the same return false
         if (!c.getDescription().equals("jeans"))
-          return false;
+          return false;// if the expected and actual are not the same return false
         if (!c.getBrand().equals("levi"))
-          return false;
+          return false;// if the expected and actual are not the same return false
         if (c.getNumOfTimesWorn() != 1)
-          return false;
+          return false;// if the expected and actual are not the same return false
         if (!c.getLastWornDate().equals(date))
-          return false;
+          return false;// if the expected and actual are not the same return false
       }
 
     }
     catch(Exception e){
       e.printStackTrace();
+      // if any other type of exception is thrown return false
       return false;
     }
-
+    // passed all the tests!
     return true;
   }
   

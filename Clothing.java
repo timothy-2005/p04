@@ -1,4 +1,31 @@
 import java.time.LocalDate;
+//////////////// FILE HEADER (INCLUDE IN EVERY FILE) //////////////////////////
+//
+// Title: wardrobe manager 2.0
+// Course: CS 300 Spring 2024
+//
+// Author: hao zhou
+// Email: hzhou375@wisc.edu
+// Lecturer: Hobbes LeGault
+//
+//////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
+//
+// Partner Name: Null
+// Partner Email: Null
+// Partner Lecturer's Name: Null
+//
+// VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
+// _X_ Write-up states that pair programming is allowed for this assignment.
+// _X_ We have both read and understand the course Pair Programming Policy.
+// _X_ We have registered our team prior to the team registration deadline.
+//
+//////////////////////// ASSISTANCE/HELP CITATIONS ////////////////////////////
+//
+// Persons: Null
+// Online Sources: Null
+//
+///////////////////////////////////////////////////////////////////////////////
+
 /**
  * A class to represent a piece of clothing.
  */
@@ -114,14 +141,19 @@ public class Clothing {
      */
     @Override
     public String toString(){
-        if (this.lastWornDate == null){
-            return this.description + "," + this.brand + ",null," + this.timesWorn;
-        } 
-        if (this.lastWornDate.getMonthValue() < 10){
-            return this.description + "," + this.brand + "," + "0" + this.lastWornDate.getMonthValue() + "/" +
-                this.lastWornDate.getDayOfMonth() + "/" + this.lastWornDate.getYear() + "," + this.timesWorn;
-        }
-        return this.description + "," + this.brand + "," + this.lastWornDate.getMonthValue() + "/" +
-            this.lastWornDate.getDayOfMonth() + "/" + this.lastWornDate.getYear() + "," + this.timesWorn;
+        if(lastWornDate == null){
+
+            return description + "," + brand + "," + "null" + "," + timesWorn;
+            }else{
+                String month = String.valueOf(lastWornDate.getMonthValue());
+            
+            if(Integer.parseInt(month) < 10){
+            month = "0" + month;
+            }
+            String day = String.valueOf(lastWornDate.getDayOfMonth());
+            if(Integer.parseInt(day) < 10)
+            day = "0" + day;
+            return description + "," + brand + "," + month + '/' + day + "/"+lastWornDate.getYear() + "," + timesWorn;
+}
     }
 }
