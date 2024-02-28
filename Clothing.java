@@ -14,7 +14,7 @@ public class Clothing {
      * @param brand the brand of the clothing
      * @throws IllegalArgumentException if the description or brand is null or empty
      */
-    public Clothing(String description, String brand) throws IllegalArgumentException{
+    public Clothing(String description, String brand){
         this.description = description;
         this.brand = brand;
         this.lastWornDate = null;

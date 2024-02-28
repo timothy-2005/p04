@@ -19,7 +19,7 @@ public class Wardrobe {
      * @param capacity the maximum number of clothing items that can be stored in the wardrobe
      * @throws IllegalArgumentException if the capacity is less than or equal to 0
      */
-    public Wardrobe(int capacity) throws IllegalArgumentException{
+    public Wardrobe(int capacity) {
         if (capacity <= 0) {
             throw new IllegalArgumentException("Invalid capacity");
         }
@@ -34,18 +34,10 @@ public class Wardrobe {
      * @return the clothing item with the given description and brand
      */
     public Clothing getClothing(String descritopn, String brand) {
-        for (Clothing targetclothes : this.wardrobe){
-            if (wardrobeSize != 0){
-                if (targetclothes.getBrand().equalsIgnoreCase(brand) && targetclothes.getDescription().equalsIgnoreCase(descritopn)){
-                    return targetclothes;
-                }else{
-                    throw new NoSuchElementException("Clothing not found");
-                }
+        for (int i = 0; i < wardrobeSize; i++){
+            if (wardrobe[i].getDescription().equalsIgnoreCase(descritopn) && wardrobe[i].getBrand().equalsIgnoreCase(brand)){
+                return wardrobe[i];
             }
-            else{
-                throw new NoSuchElementException("wardrobe is empty");
-        }
-        
     }
     throw new NoSuchElementException("Clothing not found");
 }
@@ -81,7 +73,7 @@ public class Wardrobe {
      * @param day the day to wear the clothing item
      * @throws IllegalArgumentException if the year is less than 1, the month is less than 1 or greater than 12, or the day is less than 1
      */
-    public void wearClothing(Clothing toWear, int year, int month, int day) throws IllegalArgumentException{
+    public void wearClothing(Clothing toWear, int year, int month, int day) {
         if (year < 1 || month < 1 || month > 12) {
             throw new IllegalArgumentException("Invalid date");
         }
@@ -189,7 +181,8 @@ public class Wardrobe {
                 newClothes = new Clothing(element[0], element[1]);
             }
             return newClothes;
-        }catch(IllegalArgumentException e){
+        }
+        catch(IllegalArgumentException e){
             throw new ParseException("Invalid Input", 0);
         }
     }
@@ -200,24 +193,29 @@ public class Wardrobe {
      * @return true if the wardrobe was successfully loaded, false otherwise
      */
     public boolean loadFromFile(File saveFile){
+        boolean result = false;
         try{
             Scanner file = new Scanner(saveFile);
             while (file.hasNextLine()){
                 String line = file.nextLine();
                 Clothing newClothes = parseClothing(line);
                 addClothing(newClothes);
+                result = true;
             }
             file.close();
-            return true;
+            
+        }catch(IllegalArgumentException e){
+            return result;
         }
         catch(ParseException e){
             PrintWriter consoleOutPut = new PrintWriter(System.out);
             consoleOutPut.println("Cannot parse line to Clothing object");
-            return false;
+            return result;
         }
         catch(FileNotFoundException e){
-            return false;
+            return result;
         }
+        return result;
     }
 
     /**
@@ -250,7 +248,7 @@ public class Wardrobe {
      * Returns the clothing item at the given index in the wardrobe.
      * @return the clothing item at the given index in the wardrobe
      */
-    public Clothing[] getArray(){
+    protected Clothing[] getArray(){
         return this.wardrobe;
     }
 

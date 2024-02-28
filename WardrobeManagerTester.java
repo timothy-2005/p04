@@ -342,7 +342,6 @@ public class WardrobeManagerTester {
   // passed all the tests!
   return true;
 }
-
   /**
    * Tests that the Wardrobe's removeClothing() method throws the correct type of exception(s) 
    * with a message in situations where an exception is expected.
@@ -360,7 +359,31 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testRemoveClothing() {
-    return false;
+    try {
+      Wardrobe w = new Wardrobe(5);
+      Clothing c1 = new Clothing("black t-shirt", "gildan");
+      Clothing c2 = new Clothing("blue hoodie", "gildan");
+      Clothing c3 = new Clothing("purse", "gucci");
+      w.addClothing(c1);
+      w.addClothing(c2);
+      w.addClothing(c3);
+
+      w.removeClothing("blue hoodie", "gildan");
+
+      String expected = "[black t-shirt,gildan,null,0]\n" + "[purse,gucci,null,0]";
+      String actual = w.toString();
+
+      if (w.size() != 2)
+        return false;
+      if (!expected.equals(actual))
+        return false;
+    }
+    catch (Exception e){
+      e.printStackTrace();
+      return false;
+    }
+    return true;
+
   }
   
   /**
@@ -370,7 +393,32 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testRemoveAllClothingWornBefore() {
-    return false;
+    try{
+      Wardrobe w = new Wardrobe(5);
+      Clothing c1 = new Clothing("black t-shirt", "gildan");
+      Clothing c2 = new Clothing("blue hoodie", "gildan");
+      Clothing c3 = new Clothing("purse", "gucci");
+      w.addClothing(c1);
+      w.addClothing(c2);
+      w.addClothing(c3);
+      w.wearClothing(c3, 2024, 2, 19);
+      w.wearClothing(c2, 2023, 10, 10);
+
+      w.removeAllClothingWornBefore(2024, 1, 1);
+
+      String expected = "[purse,gucci,02/19/2024,1]";
+      String actual = w.toString();
+
+      if (w.size() != 1)
+        return false;
+      if (!expected.equals(actual))
+        return false;
+
+    }catch (Exception e){
+      e.printStackTrace();
+      return false;
+    }
+    return true;
   }
   
   /**
@@ -380,7 +428,37 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testRemoveAllClothingWornNumTimes() {
-    return false;
+    try{
+      Wardrobe w = new Wardrobe(5);
+      Clothing c1 = new Clothing("black t-shirt", "gildan");
+      Clothing c2 = new Clothing("blue hoodie", "gildan");
+      Clothing c3 = new Clothing("purse", "gucci");
+      Clothing c4 = new Clothing("winter jacket", "xtreme");
+      w.addClothing(c1);
+      w.addClothing(c2);
+      w.addClothing(c3);
+      w.addClothing(c4);
+      w.wearClothing(c2, 2023, 10, 10);
+      w.wearClothing(c2, 2024, 5, 15);
+      w.wearClothing(c2, 2023, 12, 25);
+      w.wearClothing(c3, 2024, 2, 19);
+      w.wearClothing(c3, 2024, 1, 8);
+      w.wearClothing(c4, 2023, 8, 20);
+
+      w.removeAllClothingWornNumTimes(2);
+      String expected = "[blue hoodie,gildan,12/25/2023,1]\n" + "[purse,gucci,01/08/2024,1]";
+      String actual = w.toString();
+
+      if (w.size() != 2)
+        return false;
+      if (!expected.equals(actual))
+        return false;
+
+    }catch (Exception e){
+      e.printStackTrace();
+      return false;
+    }
+    return true;
   }
   
   /**
@@ -400,7 +478,43 @@ public class WardrobeManagerTester {
    * @return true if all tests pass, false otherwise
    */
   public static boolean testParseClothing() {
-    return false;
+    try{
+      { //test case with no date in string
+        String str = "black t-shirt,Gildan,null,0";
+        Clothing c = Wardrobe.parseClothing(str);
+
+        if (!c.getDescription().equals("black t-shirt"))
+          return false;
+        if (!c.getBrand().equals("Gildan"))
+          return false;
+        if (c.getNumOfTimesWorn() != 0)
+          return false;
+        if (c.getLastWornDate() != null)
+          return false;
+      }
+
+      { //test case with valid date in string
+        String str = "jeans,levi,02/14/2024,1";
+        Clothing c = Wardrobe.parseClothing(str);
+        LocalDate date = LocalDate.of(2024, 2, 14);
+
+        if (!c.getDescription().equals("jeans"))
+          return false;
+        if (!c.getBrand().equals("levi"))
+          return false;
+        if (c.getNumOfTimesWorn() != 1)
+          return false;
+        if (!c.getLastWornDate().equals(date))
+          return false;
+      }
+
+    }
+    catch(Exception e){
+      e.printStackTrace();
+      return false;
+    }
+
+    return true;
   }
   
   /**
