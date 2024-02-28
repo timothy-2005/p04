@@ -543,7 +543,7 @@ public class WardrobeManagerTester {
     { // test case without the 4 required pieces of information
       try {
         String str = "black t-shirt,gildan,null";
-        Clothing cloth = Wardrobe.parseClothing(str);
+        Clothing c = Wardrobe.parseClothing(str);
         // no exception was thrown when it should have been; it's a broken implementation
         return false;
 
@@ -561,7 +561,7 @@ public class WardrobeManagerTester {
     { // test case of invalid date format
       try {
         String str = "blue hoodie,gildan,10/10,1";
-        Clothing cloth = Wardrobe.parseClothing(str);
+        Clothing c = Wardrobe.parseClothing(str);
         // no exception was thrown when it should have been; it's a broken implementation
         return false;
 
@@ -579,7 +579,7 @@ public class WardrobeManagerTester {
     { //test case with invalid cloth argument
       try {
         String str = "blue hoodie,gildan,10/10/2023,s";
-        Clothing cloth = Wardrobe.parseClothing(str);
+        Clothing c = Wardrobe.parseClothing(str);
         // no exception was thrown when it should have been; it's a broken implementation
         return false;
 
